@@ -124,3 +124,65 @@ $req->execute([
 	'id' => $id
 ]);
 ```
+
+
+## Cas pratique avec le html
+
+Nous allons insérer des données dans notre base
+
+Pour ce faire nous allons créer un formulaire
+
+```html
+<form method="post">
+	<div class="row">
+		<div class="col">
+			<label>Titre :</label>
+			<input type="text" name="title">
+       </div>
+    </div>
+    <div class="row">
+    	<div class="col">
+			<label>Content</label>
+			<textarea name="content"></textarea>
+		</div>
+    </div>
+   <button type="submit">Ajouter</button>
+</form>
+```
+
+Il y plusieurs choses importantes :
+
+La balise form, elle déclare notre formulaire, puis nous lui définisons la méthode de transmission des données (ici POST, par défaut c'est GET).
+
+On aura pu aussi rajouter une action, si nous ne spécifions rien, le formulaire valider va envoyer les données sur la même page.
+
+Si on souhaite traiter les données dans une page différente, nous aurions écrit : ```<form action="response.php">```.
+
+La deuxième chose importante sont les ```name``` de nos différents champs, ici un input et un textarea. C'est sont nos variables que nous allons récupérer en ```$_POST``` une fois le formulaire soumis.
+
+Puis nous allons passer au traitement de nos données, nous allons les poussés dans notre table.
+
+Ce traitement sera placé en haut de notre code
+
+```php
+if (isset($_POST['title']) && isset($_POST['content'])) {
+    try {
+        $instance = new PDO("mysql:host=localhost;dbname=tp", 'tp', 'secret');
+        $instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        echo 'Échec lors de la connexion : ' . $e->getMessage();
+    }
+    $reponse = $instance->prepare('INSERT INTO article (title, content) VALUES(: title, :content)');
+    $reponse->execute([
+        'title' => $_POST['title'],
+        'content' => $_POST['content'],
+    ]);
+    $message =  "Article bien ajouté";
+}
+```
+
+Ici nous testons si nos deux valeurs (title, content) sont initialisés par le formulaire, si c'est le cas, on fait la connection à notre base de donnée et on insert nos données en base.
+
+Voici le fichier final <https://github.com/OlivierToussaint/tp-3il/blob/premiercontactavecpdo/article_add.php>
+
+
