@@ -133,21 +133,21 @@ Nous allons insérer des données dans notre base
 Pour ce faire nous allons créer un formulaire
 
 ```html
-<form method="post">
-	<div class="row">
-		<div class="col">
-			<label>Titre :</label>
-			<input type="text" name="title">
-       </div>
-    </div>
-    <div class="row">
-    	<div class="col">
-			<label>Content</label>
-			<textarea name="content"></textarea>
-		</div>
-    </div>
-   <button type="submit">Ajouter</button>
-</form>
+       <form method="post">
+           <div class="row">
+               <div class="col">
+                   <label>Titre :</label>
+                   <input type="text" name="title">
+               </div>
+           </div>
+           <div class="row">
+               <div class="col">
+                   <label>Content</label>
+                    <textarea name="content"></textarea>
+               </div>
+           </div>
+           <button>Ajouter</button>
+       </form>
 ```
 
 Il y plusieurs choses importantes :
